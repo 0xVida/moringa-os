@@ -516,3 +516,5 @@ export default function WalletPage() {
     </Suspense>
   );
 }
+
+// getAddress() normalises AI-returned lowercase hex to EIP-55 checksum
