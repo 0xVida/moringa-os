@@ -234,3 +234,5 @@ export async function zgClassifyIntent(
     return { intent: "GENERAL_CHAT", parameters: { message: prompt } };
   }
 }
+
+// processResponse settled async — caller is never blocked
