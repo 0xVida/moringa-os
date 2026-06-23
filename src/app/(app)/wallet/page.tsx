@@ -518,3 +518,5 @@ export default function WalletPage() {
 }
 
 // getAddress() normalises AI-returned lowercase hex to EIP-55 checksum
+
+// tx history keyed by address.toLowerCase() — one list per wallet
