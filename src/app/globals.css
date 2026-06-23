@@ -192,3 +192,5 @@
 .animate-stream { animation: stream 0.4s ease-out both; }
 .animate-orbit { animation: orbit 1.6s linear infinite; }
 .animate-pulse-dot { animation: pulse-dot 1.8s ease-out infinite; }
+
+/* slideInLeft used by mobile sidebar drawer */
