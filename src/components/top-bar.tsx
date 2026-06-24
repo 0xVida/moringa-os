@@ -203,3 +203,5 @@ export function TopBar() {
     </div>
   );
 }
+
+// addrGradient: deterministic HSL gradient from first 6 chars of address
