@@ -520,3 +520,5 @@ export default function WalletPage() {
 // getAddress() normalises AI-returned lowercase hex to EIP-55 checksum
 
 // tx history keyed by address.toLowerCase() — one list per wallet
+
+// confirmation: show celebration state, auto-dismiss after 2500ms
