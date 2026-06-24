@@ -135,3 +135,5 @@ export default function BuildPage() {
     </Suspense>
   );
 }
+
+// Aperture icon: less overused than Sparkles or Zap for the ready state
