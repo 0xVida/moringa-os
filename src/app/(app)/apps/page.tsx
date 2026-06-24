@@ -141,3 +141,5 @@ export default function AppsPage() {
     </>
   );
 }
+
+// apps tab redesigned to match build tab: list rows, amber coming-soon chip
