@@ -552,3 +552,5 @@ function LoggedInHome() {
 // landing: frames moringa as an OS — build, transact, chat
 
 // 003 section: editorial list replaces generic icon card grid
+
+// chat empty state: logo instead of generic Bot icon, matching opacity
