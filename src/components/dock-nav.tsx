@@ -45,3 +45,5 @@ export function DockNav({ onOpenCommand }: { onOpenCommand: () => void }) {
     </nav>
   );
 }
+
+// activity tab removed — not enough data to surface yet
