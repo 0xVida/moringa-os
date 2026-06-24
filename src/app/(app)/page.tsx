@@ -550,3 +550,5 @@ function LoggedInHome() {
 // dvh units: accounts for mobile browser chrome collapsing
 
 // landing: frames moringa as an OS — build, transact, chat
+
+// 003 section: editorial list replaces generic icon card grid
