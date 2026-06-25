@@ -194,3 +194,118 @@
 .animate-pulse-dot { animation: pulse-dot 1.8s ease-out infinite; }
 
 /* slideInLeft used by mobile sidebar drawer */
+
+/* ── chat-md: scoped prose for AI markdown responses ───────────────────────── */
+.chat-md { color: inherit; line-height: 1.65; }
+.chat-md > * + * { margin-top: 0.75em; }
+
+.chat-md h1, .chat-md h2, .chat-md h3, .chat-md h4 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: oklch(0.95 0.015 90);
+}
+.chat-md h1 { font-size: 1.4em; margin-top: 1.2em; }
+.chat-md h2 { font-size: 1.15em; margin-top: 1em; }
+.chat-md h3 { font-size: 1em; text-transform: uppercase; letter-spacing: 0.06em; font-family: var(--font-mono); font-size: 0.72em; color: var(--muted-foreground); }
+
+.chat-md strong { color: oklch(0.95 0.015 90); font-weight: 600; }
+.chat-md em { font-style: italic; }
+
+.chat-md code {
+  font-family: var(--font-mono);
+  font-size: 0.8em;
+  background: oklch(0.95 0.015 90 / 0.07);
+  border: 1px solid oklch(0.95 0.015 90 / 0.10);
+  border-radius: 0.3em;
+  padding: 0.1em 0.35em;
+  color: var(--lime);
+}
+
+.chat-md pre {
+  background: oklch(0.12 0.006 95);
+  border: 1px solid oklch(0.95 0.015 90 / 0.10);
+  border-radius: 0.75rem;
+  padding: 1rem 1.125rem;
+  overflow-x: auto;
+  font-size: 0.8em;
+  line-height: 1.6;
+}
+.chat-md pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: oklch(0.88 0.015 90);
+  font-size: inherit;
+}
+
+.chat-md ul { list-style: none; padding-left: 0; }
+.chat-md ul li { padding-left: 1.1em; position: relative; }
+.chat-md ul li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 0.3em;
+  height: 0.3em;
+  border-radius: 50%;
+  background: var(--lime);
+  opacity: 0.7;
+}
+
+.chat-md ol { list-style: none; padding-left: 0; counter-reset: li; }
+.chat-md ol li { padding-left: 1.8em; position: relative; counter-increment: li; }
+.chat-md ol li::before {
+  content: counter(li, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  font-family: var(--font-mono);
+  font-size: 0.65em;
+  color: var(--muted-foreground);
+  top: 0.2em;
+}
+
+.chat-md li + li { margin-top: 0.3em; }
+
+.chat-md blockquote {
+  border-left: 2px solid var(--lime);
+  padding-left: 0.9em;
+  color: var(--muted-foreground);
+  font-style: italic;
+}
+
+.chat-md table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82em;
+  font-family: var(--font-mono);
+}
+.chat-md th {
+  font-size: 0.7em;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted-foreground);
+  border-bottom: 1px solid oklch(0.95 0.015 90 / 0.10);
+  padding: 0.4em 0.6em;
+  text-align: left;
+}
+.chat-md td {
+  padding: 0.4em 0.6em;
+  border-bottom: 1px solid oklch(0.95 0.015 90 / 0.05);
+}
+
+.chat-md a {
+  color: var(--lime);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  opacity: 0.85;
+}
+.chat-md a:hover { opacity: 1; }
+
+.chat-md hr {
+  border: none;
+  border-top: 1px solid oklch(0.95 0.015 90 / 0.08);
+  margin: 1.25em 0;
+}
+

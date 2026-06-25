@@ -3,6 +3,8 @@
 import type { Metadata } from "next";
 import { useEffect, useRef, useState, useCallback, Suspense } from "react";
 import { ArrowRight, Hammer, Send, BarChart3, Bot, Smartphone, Link2, CornerDownLeft, Zap } from "lucide-react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/lib/auth";
@@ -504,9 +506,18 @@ function LoggedInHome() {
               <div className={`size-8 rounded-full flex items-center justify-center shrink-0 ${msg.role === "user" ? "bg-white/10" : "bg-lime/10 text-lime"}`}>
                 {msg.role === "user" ? <span className="text-xs font-mono">You</span> : <Bot className="size-4" />}
               </div>
-              <div className="flex-1 pt-1.5 text-sm text-white/90 leading-relaxed whitespace-pre-wrap">
-                {msg.content}
-                {msg.streaming && <span className="inline-block w-[0.5em] h-[1em] align-text-bottom bg-lime ml-0.5 animate-blink" />}
+              <div className="flex-1 pt-1.5 text-sm text-white/90 leading-relaxed min-w-0">
+                {msg.role === "user" ? (
+                  <span className="whitespace-pre-wrap">{msg.content}</span>
+                ) : (
+                  <div className="chat-md">
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                      {msg.content}
+                    </ReactMarkdown>
+                    {msg.streaming && <span className="inline-block w-[0.5em] h-[1em] align-text-bottom bg-lime ml-0.5 animate-blink" />}
+                  </div>
+                )}
+                {msg.role === "user" && msg.streaming && <span className="inline-block w-[0.5em] h-[1em] align-text-bottom bg-lime ml-0.5 animate-blink" />}
               </div>
             </div>
           ))}
