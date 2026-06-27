@@ -32,6 +32,50 @@ function setStoredRootHash(address: string, rootHash: string) {
 
 export type SyncStatus = "idle" | "syncing" | "synced" | "error";
 
+async function withProxy<T>(fn: () => Promise<T>): Promise<T> {
+  if (typeof window === "undefined") return fn();
+
+  const originalFetch = window.fetch;
+  const OriginalXHR = window.XMLHttpRequest;
+
+  window.fetch = async (input, init) => {
+    let urlStr = typeof input === "string" ? input : input instanceof URL ? input.toString() : input.url;
+    if (urlStr.startsWith("http://")) {
+      const proxyUrl = `/api/proxy?url=${encodeURIComponent(urlStr)}`;
+      if (typeof input === "string" || input instanceof URL) {
+        input = proxyUrl;
+      } else {
+        input = new Request(proxyUrl, input);
+      }
+    }
+    return originalFetch(input, init);
+  };
+
+  class ProxiedXHR extends OriginalXHR {
+    open(method: string, url: string | URL, async?: boolean, user?: string | null, password?: string | null) {
+      const urlStr = url.toString();
+      let finalUrl = urlStr;
+      if (urlStr.startsWith("http://")) {
+        finalUrl = `/api/proxy?url=${encodeURIComponent(urlStr)}`;
+      }
+      if (async !== undefined) {
+        super.open(method, finalUrl, async, user, password);
+      } else {
+        super.open(method, finalUrl);
+      }
+    }
+  }
+  
+  window.XMLHttpRequest = ProxiedXHR as any;
+
+  try {
+    return await fn();
+  } finally {
+    window.fetch = originalFetch;
+    window.XMLHttpRequest = OriginalXHR;
+  }
+}
+
 /**
  * Upload any JSON-serialisable value to 0G Storage.
  * Returns the root hash that can be used to retrieve the data later.
@@ -52,23 +96,25 @@ export async function uploadToZeroGStorage(
   const bytes = new TextEncoder().encode(json);
   const file = new MemData(bytes);
 
-  const indexer = new Indexer(ZG_STORAGE_INDEXER);
-  const [result, err] = await indexer.upload(
-    file,
-    ZG_STORAGE_RPC,
-    signer as any,
-    {
-      skipTx: true,
-      skipIfFinalized: true,
-      finalityRequired: false,
-    }
-  );
+  return withProxy(async () => {
+    const indexer = new Indexer(ZG_STORAGE_INDEXER);
+    const [result, err] = await indexer.upload(
+      file,
+      ZG_STORAGE_RPC,
+      signer as any,
+      {
+        skipTx: true,
+        skipIfFinalized: true,
+        finalityRequired: false,
+      }
+    );
 
-  if (err) throw err;
-
-  const rootHash = (result as any).rootHash as string;
-  if (rootHash) setStoredRootHash(address, rootHash);
-  return rootHash;
+    if (err) throw err;
+    return (result as any).rootHash as string;
+  }).then((rootHash) => {
+    if (rootHash) setStoredRootHash(address, rootHash);
+    return rootHash;
+  });
 }
 
 /**
@@ -78,12 +124,14 @@ export async function uploadToZeroGStorage(
 export async function downloadFromZeroGStorage<T>(
   rootHash: string
 ): Promise<T> {
-  const { Indexer } = await import("@0gfoundation/0g-storage-ts-sdk/browser");
-  const indexer = new Indexer(ZG_STORAGE_INDEXER);
-  const [blob, err] = await indexer.downloadToBlob(rootHash);
-  if (err) throw err;
-  const text = await blob.text();
-  return JSON.parse(text) as T;
+  return withProxy(async () => {
+    const { Indexer } = await import("@0gfoundation/0g-storage-ts-sdk/browser");
+    const indexer = new Indexer(ZG_STORAGE_INDEXER);
+    const [blob, err] = await indexer.downloadToBlob(rootHash);
+    if (err) throw err;
+    const text = await blob.text();
+    return JSON.parse(text) as T;
+  });
 }
 
 /**

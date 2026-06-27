@@ -121,7 +121,7 @@ export function TopBar() {
 
           {/* Dropdown */}
           {open && address && (
-            <div className="absolute right-0 top-full mt-2 w-64 surface border border-white/10 rounded-2xl overflow-hidden shadow-2xl shadow-black/40 z-50 animate-fade-up">
+            <div className="absolute right-0 top-full mt-2 w-64 surface border border-white/10 rounded-2xl overflow-hidden shadow-2xl shadow-black/40 z-50 animate-fade-up bg-zinc-950">
               {/* Identity header */}
               <div className="p-4 border-b border-white/5 flex items-center gap-3">
                 <div

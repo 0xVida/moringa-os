@@ -237,7 +237,7 @@ export function WalletPickerModal() {
       onClick={disconnect}
     >
       <div
-        className="w-full max-w-sm surface border border-white/10 rounded-2xl overflow-hidden shadow-2xl shadow-black/60 animate-fade-up"
+        className="w-full max-w-sm surface border border-white/10 rounded-2xl overflow-hidden shadow-2xl shadow-black/60 animate-fade-up bg-zinc-950"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
