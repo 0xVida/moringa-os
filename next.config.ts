@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   turbopack: {},
-  webpack: (config, { isServer }) => {
+  webpack: (config, { isServer, webpack }) => {
     if (isServer) {
       // better-sqlite3 is a native addon — keep external on the server bundle
       // (the package is still installed but no longer imported by chat-store.ts)
@@ -18,11 +18,17 @@ const nextConfig: NextConfig = {
         path: false,
         crypto: false,
         stream: false,
-        buffer: false,
+        buffer: require.resolve('buffer/'),
         os: false,
         net: false,
         tls: false,
       };
+
+      config.plugins.push(
+        new webpack.ProvidePlugin({
+          Buffer: ['buffer', 'Buffer'],
+        })
+      );
     }
 
     return config;
