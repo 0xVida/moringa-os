@@ -503,17 +503,17 @@ function LoggedInHome() {
             </div>
           )}
           {messages.map((msg, i) => (
-            <div key={i} className="flex gap-4">
-              <div className={cn("size-6 rounded-full shrink-0 flex items-center justify-center", msg.role === "user" ? "bg-white/10" : "bg-lime/10")}>
-                {msg.role === "user" ? (
-                  <span className="text-[10px] font-mono">You</span>
-                ) : (
+            <div key={i} className={cn("flex gap-3 sm:gap-4 w-full", msg.role === "user" ? "flex-row-reverse" : "flex-row")}>
+              {msg.role !== "user" && (
+                <div className="size-6 rounded-full shrink-0 flex items-center justify-center mt-0.5 bg-lime/10">
                   <img src="/logo.png" alt="moringa" className="size-3.5 object-contain opacity-80" />
-                )}
-              </div>
-              <div className="flex-1 pt-1.5 text-sm text-white/90 leading-relaxed min-w-0">
+                </div>
+              )}
+              <div className={cn("flex-1 text-sm text-white/90 leading-relaxed min-w-0", msg.role === "user" ? "flex flex-col items-end" : "")}>
                 {msg.role === "user" ? (
-                  <span className="whitespace-pre-wrap">{msg.content}</span>
+                  <div className="whitespace-pre-wrap bg-white/10 px-4 py-2.5 rounded-2xl rounded-tr-sm inline-block text-left">
+                    {msg.content}
+                  </div>
                 ) : (
                   <div className="chat-md">
                     <ReactMarkdown remarkPlugins={[remarkGfm]}>

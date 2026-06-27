@@ -289,7 +289,7 @@ function BuildPageContent() {
         <div className="flex-1 grid lg:grid-cols-5 gap-4 min-h-0">
           
           {/* LEFT: Chat Interface */}
-          <div className={cn("lg:col-span-2 flex-col surface border border-white/5 rounded-2xl overflow-hidden relative bg-black/20", mobileTab === "chat" ? "flex" : "hidden lg:flex")}>
+          <div className={cn("flex-col surface border border-white/5 rounded-2xl overflow-hidden relative bg-black/20", mobileTab === "chat" ? "flex" : "hidden lg:flex", desktopSidebarOpen ? "lg:hidden" : "lg:col-span-2")}>
             <div className="flex items-center gap-2 px-4 py-3 border-b border-white/5 bg-background/50 shrink-0">
               <img src="/logo.png" alt="moringa" className="size-4 object-contain opacity-80" />
               <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">App Architect</span>
@@ -304,12 +304,14 @@ function BuildPageContent() {
               )}
               {messages.map((m, i) => (
                 <div key={i} className={cn("flex flex-col max-w-[90%]", m.role === "user" ? "ml-auto items-end" : "mr-auto items-start")}>
-                  <div className="flex items-center gap-1.5 mb-1.5 px-1 opacity-50">
-                    {m.role === "user" ? <User className="size-3" /> : <img src="/logo.png" alt="moringa" className="size-3 object-contain opacity-80" />}
-                    <span className="font-mono text-[9px] uppercase tracking-widest">
-                      {m.role === "user" ? "You" : "Moringa"}
-                    </span>
-                  </div>
+                  {m.role !== "user" && (
+                    <div className="flex items-center gap-1.5 mb-1.5 px-1 opacity-50">
+                      <img src="/logo.png" alt="moringa" className="size-3 object-contain opacity-80" />
+                      <span className="font-mono text-[9px] uppercase tracking-widest">
+                        Moringa
+                      </span>
+                    </div>
+                  )}
                   <div className={cn(
                     "p-3 rounded-2xl text-sm leading-relaxed",
                     m.role === "user" ? "bg-white/10 text-white rounded-tr-sm" : "bg-zinc-900 border border-white/5 text-zinc-300 rounded-tl-sm font-mono text-[10px] overflow-hidden"
@@ -321,13 +323,13 @@ function BuildPageContent() {
               <div ref={bottomRef} />
             </div>
 
-            <div className="p-3 border-t border-white/5 bg-background/50 shrink-0">
+            <div className="p-4 bg-background/50 backdrop-blur-md border-t border-white/5 shrink-0">
               {error && (
                 <div className="mb-3 rounded-xl border border-rose-400/30 bg-rose-400/10 px-3 py-2 text-rose-400 text-xs">
                   {error}
                 </div>
               )}
-              <div className="relative">
+              <div className="surface-raised rounded-2xl p-2 relative">
                 <textarea
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
@@ -335,21 +337,23 @@ function BuildPageContent() {
                   placeholder="e.g. Make it blue and add a chart..."
                   rows={2}
                   disabled={isGenerating}
-                  className="w-full bg-black border border-white/10 rounded-xl pl-4 pr-12 py-3 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:border-lime/50 transition-colors resize-none disabled:opacity-50"
+                  className="w-full bg-transparent outline-none resize-none px-3 py-2 text-base placeholder:text-muted-foreground/60 font-body disabled:opacity-50"
                 />
-                <button
-                  onClick={() => handleGenerate()}
-                  disabled={isGenerating || !input.trim()}
-                  className="absolute right-2 bottom-2 size-8 bg-lime hover:bg-lime/90 text-black rounded-lg flex items-center justify-center transition-colors disabled:opacity-50 disabled:bg-white/10 disabled:text-white/30"
-                >
-                  <Send className="size-3.5" />
-                </button>
+                <div className="absolute bottom-3 right-3">
+                  <button
+                    onClick={() => handleGenerate()}
+                    disabled={isGenerating || !input.trim()}
+                    className="inline-flex items-center justify-center size-8 rounded-xl bg-lime text-black transition hover:scale-105 disabled:opacity-50 disabled:bg-white/10 disabled:text-white/30"
+                  >
+                    <Send className="size-3.5" />
+                  </button>
+                </div>
               </div>
             </div>
           </div>
 
           {/* RIGHT: Live Preview */}
-          <div className={cn("lg:col-span-3 surface border border-white/5 rounded-2xl overflow-hidden relative bg-black flex-col", mobileTab === "preview" ? "flex" : "hidden lg:flex")}>
+          <div className={cn("surface border border-white/5 rounded-2xl overflow-hidden relative bg-black flex-col", mobileTab === "preview" ? "flex" : "hidden lg:flex", desktopSidebarOpen ? "lg:col-span-5" : "lg:col-span-3")}>
             <div className="flex items-center gap-2 px-4 py-3 border-b border-white/5 bg-background/50 shrink-0">
               <Code className="size-3.5 text-muted-foreground" />
               <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">Preview</span>
