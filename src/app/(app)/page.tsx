@@ -7,6 +7,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/auth";
 import { useWallet } from "@/lib/wallet";
 import { useIntent } from "@/lib/use-intent";
@@ -503,8 +504,12 @@ function LoggedInHome() {
           )}
           {messages.map((msg, i) => (
             <div key={i} className="flex gap-4">
-              <div className={`size-8 rounded-full flex items-center justify-center shrink-0 ${msg.role === "user" ? "bg-white/10" : "bg-lime/10 text-lime"}`}>
-                {msg.role === "user" ? <span className="text-xs font-mono">You</span> : <Bot className="size-4" />}
+              <div className={cn("size-6 rounded-full shrink-0 flex items-center justify-center", msg.role === "user" ? "bg-white/10" : "bg-lime/10")}>
+                {msg.role === "user" ? (
+                  <span className="text-[10px] font-mono">You</span>
+                ) : (
+                  <img src="/logo.png" alt="moringa" className="size-3.5 object-contain opacity-80" />
+                )}
               </div>
               <div className="flex-1 pt-1.5 text-sm text-white/90 leading-relaxed min-w-0">
                 {msg.role === "user" ? (
@@ -524,7 +529,9 @@ function LoggedInHome() {
           {needsSetup && (
             <div className="flex flex-col gap-4 surface-raised border border-lime/20 rounded-2xl p-6">
               <div className="flex items-center gap-3">
-                <div className="size-10 rounded-full bg-lime/10 flex items-center justify-center text-lime"><Bot className="size-5" /></div>
+                <div className="size-10 rounded-full bg-lime/10 flex items-center justify-center">
+                  <img src="/logo.png" alt="moringa" className="size-5 object-contain opacity-80" />
+                </div>
                 <div>
                   {probingLedger ? <p className="text-sm font-semibold text-white">Checking ledger…</p>
                     : hasExistingLedger ? <><p className="text-sm font-semibold text-white">Sub-Account Needs Top-Up</p><p className="text-xs text-muted-foreground mt-0.5">Transfer 1 OG to continue. Ledger has <span className="text-lime font-mono">{ledgerInfo!.freeOG.toFixed(3)} OG</span> free.</p></>
