@@ -1,0 +1,9 @@
+--- src/components/app-renderer.tsx
++++ src/components/app-renderer.tsx
+@@ -95,6 +95,7 @@
+ // --- Main Renderer ---
+ 
+ export function AppRenderer({ config }: { config: AppConfig }) {
++  console.log("APP_CONFIG_RENDER:", JSON.stringify(config, null, 2));
+   const themeColor = config.themeColor || "#c9ff00";
+   const [appState, setAppState] = useState<Record<string, any>>(config.state || {});

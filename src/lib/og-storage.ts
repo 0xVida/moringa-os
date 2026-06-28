@@ -34,6 +34,7 @@ export type SyncStatus = "idle" | "syncing" | "synced" | "error";
 
 async function withProxy<T>(fn: () => Promise<T>): Promise<T> {
   if (typeof window === "undefined") return fn();
+  if (process.env.NEXT_PUBLIC_ENVIRONMENT === "dev") return fn();
 
   const originalFetch = window.fetch;
   const OriginalXHR = window.XMLHttpRequest;

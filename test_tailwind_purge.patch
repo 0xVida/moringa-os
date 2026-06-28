@@ -1,0 +1,17 @@
+--- src/components/app-renderer.tsx
++++ src/components/app-renderer.tsx
+@@ -4,6 +4,16 @@
+ 
++// --- Tailwind Safelist for LLM Generation ---
++// grid grid-cols-1 grid-cols-2 grid-cols-3 grid-cols-4 grid-cols-5 grid-cols-6 grid-cols-7 grid-cols-8
++// flex flex-row flex-col flex-wrap flex-1
++// gap-1 gap-2 gap-3 gap-4 gap-5 gap-6 gap-8
++// p-1 p-2 p-3 p-4 p-5 p-6 p-8
++// m-1 m-2 m-3 m-4 m-5 m-6 m-8
++// w-1/2 w-1/3 w-2/3 w-1/4 w-3/4 w-full h-full
++// justify-start justify-center justify-end justify-between items-start items-center items-end items-stretch
++// bg-red-500 bg-blue-500 bg-green-500 bg-yellow-500 bg-purple-500 bg-zinc-500 bg-zinc-800 bg-zinc-900 bg-white bg-black text-white text-black text-red-500 text-blue-500
++// text-xs text-sm text-base text-lg text-xl text-2xl text-center text-left text-right font-bold font-mono
++
+ // --- Types ---
+ export type AppBlockType = "header" | "stat" | "list" | "button" | "progress" | "text-input" | "container";
